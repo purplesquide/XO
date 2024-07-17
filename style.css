@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --bg-color: #2c3e50;
+  --primary-color: #e74c3c;
+  --secondary-color: #f39c12;
+  --text-color: #ecf0f1;
+  --box-bg: #34495e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+.select-box, .play-board, .result-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  background: var(--box-bg);
+  padding: max(15px, 3vmin);
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  width: min(90%, 400px);
+}
+
+.select-box { z-index: 1; }
+.play-board { z-index: 2; }
+.result-box { z-index: 3; }
+
+.select-box.hide,
+.play-board:not(.show),
+.result-box:not(.show) {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+.select-box:not(.hide),
+.play-board.show,
+.result-box.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.select-box header, .result-box .won-text {
+  font-size: max(20px, 4vmin);
+  font-weight: 600;
+  padding-bottom: max(8px, 2vmin);
+  border-bottom: 2px solid var(--primary-color);
+  margin-bottom: max(15px, 3vmin);
+  color: var(--primary-color);
+}
+
+.select-box .title {
+  font-size: max(16px, 3vmin);
+  font-weight: 500;
+  margin: max(15px, 3vmin) 0;
+}
+
+.select-box .options {
+  display: flex;
+  width: 100%;
+}
+
+.options button, .btn button {
+  width: 100%;
+  font-size: max(14px, 2.5vmin);
+  font-weight: 500;
+  padding: max(10px, 2vmin) 0;
+  border: none;
+  background: var(--primary-color);
+  border-radius: 50px;
+  color: var(--text-color);
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.options button:hover, .btn button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-3px);
+}
+
+.play-board .details {
+  background: var(--bg-color);
+  padding: max(5px, 1vmin);
+  border-radius: 10px;
+  margin-bottom: max(15px, 3vmin);
+}
+
+.players {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: max(8px, 1.5vmin) 0;
+}
+
+.players span {
+  position: relative;
+  z-index: 2;
+  font-size: max(14px, 2.5vmin);
+  font-weight: 500;
+  padding: max(8px, 1.5vmin) 0;
+  width: 50%;
+  text-align: center;
+  cursor: default;
+  user-select: none;
+  transition: all 0.3s ease;
+  color: var(--secondary-color);
+}
+
+.players .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.players.active .slider { left: 50%; }
+.players.active span:first-child { color: var(--text-color); }
+.players.active span:last-child { color: var(--secondary-color); }
+
+.play-area {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: max(5px, 1vmin);
+}
+
+.play-area section { display: contents; }
+
+.play-area span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: max(30px, 6vmin);
+  background: var(--box-bg);
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-area span:hover { background: rgba(255, 255, 255, 0.1); }
+
+.play-area span i {
+  font-size: max(35px, 7vmin);
+  color: var(--text-color);
+}
+
+.result-box .won-text {
+  font-size: max(18px, 3.5vmin);
+  margin-bottom: max(10px, 2vmin);
+  display: flex;
+  justify-content: center;
+}
+
+.result-box .won-text p {
+  font-weight: 600;
+  margin: 0 5px;
+}
+
+.result-box .btn {
+  width: 100%;
+  margin-top: max(20px, 4vmin);
+  display: flex;
+  justify-content: center;
+}
+
+.btn button {
+  font-size: max(14px, 2.5vmin);
+  padding: max(6px, 1.5vmin) max(15px, 3vmin);
+  border-radius: 5px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.players.active span { animation: pulse 1s infinite; }
+
+@media (max-width: 280px) {
+  body { padding: 5px; }
+  .select-box, .play-board, .result-box {
+    padding: 10px;
+    width: 95%;
+  }
+  .select-box header, .result-box .won-text { font-size: 18px; }
+  .select-box .title { font-size: 14px; }
+  .options button, .btn button { font-size: 12px; padding: 8px 0; }
+  .players span { font-size: 12px; }
+  .play-area span { font-size: 24px; }
+  .play-area span i { font-size: 28px; }
+  .result-box .won-text { font-size: 16px; }
+  .btn button { font-size: 12px; padding: 5px 12px; }
+}
